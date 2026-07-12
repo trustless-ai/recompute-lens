@@ -4,31 +4,10 @@
 
 import * as receiptos from './recompute/receiptos-c14n-v0';
 import * as invino from './recompute/invinoveritas-witness-v1';
+import { KIT_RECIPES } from './recompute/kit';
+import type { Recipe } from './types';
 
-export type TriState = receiptos.TriState;
-export type LogLine = receiptos.LogLine;
-
-export interface ReproRow { label: string; value: string }
-export interface LensResult {
-  profile: string;
-  log: LogLine[];
-  verdict: TriState;
-  reason: string;
-  vantageLimitation: string;
-  signatureNote?: string;
-  reproduce: { rows: ReproRow[]; commands: string };
-}
-export interface Field { key: string; label: string; placeholder: string; area?: boolean }
-export interface Recipe {
-  id: string;
-  label: string;
-  profile: string;
-  blurb: string;
-  fields: Field[];
-  loadExample: () => Record<string, string>;
-  run: (f: Record<string, string>) => Promise<LensResult | { error: string }>;
-  selfTest: () => Promise<{ ok: boolean }>;
-}
+export type { LensResult, LogLine, TriState, Recipe } from './types';
 
 function asObject(text: string): { ok: true; value: Record<string, unknown> } | { ok: false; error: string } {
   let v: unknown;
@@ -98,4 +77,4 @@ const invinoRecipe: Recipe = {
   selfTest: async () => ({ ok: (await invino.selfTest()).ok }),
 };
 
-export const RECIPES: Recipe[] = [receiptosRecipe, invinoRecipe];
+export const RECIPES: Recipe[] = [receiptosRecipe, invinoRecipe, ...KIT_RECIPES];
