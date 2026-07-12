@@ -52,6 +52,13 @@ button.go { background: var(--accent); color: #06140f; border-color: var(--accen
 button.go:hover { filter: brightness(1.08); }
 button.ghost:hover { border-color: var(--accent); color: #eafff6; }
 .err { margin-top: 8px; color: var(--bad); font-size: 13px; }
+.recipe-pick { width: 100%; background: #0a1713; color: var(--text); border: 1px solid var(--line);
+  border-radius: 9px; padding: 9px 12px; font-family: var(--mono); font-size: 13px; cursor: pointer; }
+.recipe-pick:focus { outline: none; border-color: var(--line-h); }
+.blurb { font-size: 12px; color: var(--muted); margin: 2px 0 4px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.vantage.signote { border-color: rgba(126,240,196,.32); color: #a9c9bd; background: rgba(126,240,196,.05); }
+.vantage.signote b { color: var(--accent); }
 
 .result { margin-top: 26px; }
 .result h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 12px; }

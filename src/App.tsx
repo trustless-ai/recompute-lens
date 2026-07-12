@@ -1,30 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
-import { recompute, selfTest, GOLDEN, PROFILE, type Result, type LogLine } from './recompute/receiptos-c14n-v0';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { RECIPES, type LensResult, type LogLine } from './recipes';
 
 export default function App() {
-  const [input, setInput] = useState('');
-  const [expected, setExpected] = useState('');
-  const [result, setResult] = useState<Result | null>(null);
+  const [recipeId, setRecipeId] = useState(RECIPES[0].id);
+  const recipe = useMemo(() => RECIPES.find((r) => r.id === recipeId)!, [recipeId]);
+  const [fields, setFields] = useState<Record<string, string>>({});
+  const [result, setResult] = useState<LensResult | null>(null);
   const [error, setError] = useState('');
-  const [conformant, setConformant] = useState<boolean | null>(null);
+  const [conf, setConf] = useState<{ done: number; ok: number } | null>(null);
 
-  useEffect(() => { selfTest().then((t) => setConformant(t.ok)).catch(() => setConformant(false)); }, []);
+  useEffect(() => {
+    let done = 0, ok = 0;
+    Promise.all(RECIPES.map((r) => r.selfTest().then((t) => { done++; if (t.ok) ok++; }).catch(() => { done++; })))
+      .then(() => setConf({ done, ok }));
+  }, []);
 
+  useEffect(() => { setFields({}); setResult(null); setError(''); }, [recipeId]);
+
+  const set = (k: string, v: string) => setFields((s) => ({ ...s, [k]: v }));
   const run = async () => {
     setError(''); setResult(null);
-    let evidence: unknown;
-    try { evidence = JSON.parse(input); } catch { setError('Input is not valid JSON.'); return; }
-    if (evidence === null || typeof evidence !== 'object' || Array.isArray(evidence)) {
-      setError('Input must be a JSON object.'); return;
-    }
-    setResult(await recompute(evidence as Record<string, unknown>, expected || null));
+    const out = await recipe.run(fields);
+    if ('error' in out) { setError(out.error); return; }
+    setResult(out);
   };
-
-  const loadExample = () => {
-    setInput(JSON.stringify(GOLDEN.evidence));
-    setExpected(GOLDEN.root);
-    setResult(null); setError('');
-  };
+  const loadExample = () => { setFields(recipe.loadExample()); setResult(null); setError(''); };
 
   return (
     <div className="app">
@@ -34,23 +34,33 @@ export default function App() {
         <p className="sub">Verify an off-chain record by watching it re-derive from its primary source — in your browser, no server, no trusted party.</p>
       </header>
 
-      {conformant !== null && (
-        <div className={'conf ' + (conformant ? 'ok' : 'bad')}>
-          {conformant
-            ? <>✓ this build is <b>conformant</b> to the <code>{PROFILE}</code> golden vector (§2.8) — it reproduces the published root byte-exact, in your browser, right now</>
-            : <>✗ conformance self-test <b>FAILED</b> — do not trust this build</>}
+      {conf && (
+        <div className={'conf ' + (conf.ok === conf.done ? 'ok' : 'bad')}>
+          {conf.ok === conf.done
+            ? <>✓ all <b>{conf.done}</b> recipes conformant to their golden vectors — reproduced byte-exact in your browser, right now</>
+            : <>✗ {conf.done - conf.ok}/{conf.done} recipe self-test(s) <b>FAILED</b> — do not trust this build</>}
         </div>
       )}
 
       <section className="panel">
-        <label>Evidence object <span className="opt">(JSON)</span></label>
-        <textarea value={input} onChange={(e) => setInput(e.target.value)} rows={5} spellCheck={false}
-          placeholder={'{"b":1,"a":{ … },"anchor":{ … }}'} />
-        <label>Expected <code>receipt_root</code> <span className="opt">(optional — falls back to anchor.receipt_root if present)</span></label>
-        <input value={expected} onChange={(e) => setExpected(e.target.value)} spellCheck={false} placeholder="0x…" />
+        <label>Recipe</label>
+        <select className="recipe-pick" value={recipeId} onChange={(e) => setRecipeId(e.target.value)}>
+          {RECIPES.map((r) => <option key={r.id} value={r.id}>{r.label} · {r.profile}</option>)}
+        </select>
+        <div className="blurb">{recipe.blurb}</div>
+
+        {recipe.fields.map((fl) => (
+          <div key={fl.key} className="field">
+            <label>{fl.label}</label>
+            {fl.area
+              ? <textarea rows={5} spellCheck={false} placeholder={fl.placeholder} value={fields[fl.key] || ''} onChange={(e) => set(fl.key, e.target.value)} />
+              : <input spellCheck={false} placeholder={fl.placeholder} value={fields[fl.key] || ''} onChange={(e) => set(fl.key, e.target.value)} />}
+          </div>
+        ))}
+
         <div className="actions">
           <button className="go" onClick={run}>Recompute</button>
-          <button className="ghost" onClick={loadExample}>Load §2.8 example</button>
+          <button className="ghost" onClick={loadExample}>Load example</button>
         </div>
         {error && <div className="err">{error}</div>}
       </section>
@@ -58,29 +68,29 @@ export default function App() {
       {result && <ResultView r={result} />}
 
       <footer>
-        profile <code>{PROFILE}</code> · engine mirrors{' '}
-        <a href="https://github.com/trustless-ai/recompute-kit" target="_blank" rel="noreferrer">recompute-kit</a> · part of{' '}
+        {RECIPES.length} recipes · engine mirrors{' '}
+        <a href="https://github.com/trustless-ai/recompute-kit" target="_blank" rel="noreferrer">recompute-kit</a> · source{' '}
+        <a href="https://github.com/trustless-ai/recompute-lens" target="_blank" rel="noreferrer">recompute-lens</a> · part of{' '}
         <a href="https://trustless-ai.eth.limo" target="_blank" rel="noreferrer">trustless-ai</a>
       </footer>
     </div>
   );
 }
 
-const LABEL: Record<Result['verdict'], string> = {
+const LABEL: Record<LensResult['verdict'], string> = {
   'verified-good': 'VERIFIED · GOOD',
   'verified-bad': 'VERIFIED · BAD',
   'unverifiable': 'UNVERIFIABLE',
 };
 
-function ResultView({ r }: { r: Result }) {
-  const done = useConsoleStream(r.log);
+function ResultView({ r }: { r: LensResult }) {
+  const { shown, finished } = useConsoleStream(r.log);
   return (
     <section className="result">
       <h2>Watch it recompute</h2>
-      <Console log={r.log} shown={done.shown} streaming={!done.finished} />
+      <Console log={r.log} shown={shown} streaming={!finished} />
 
-      {/* the verdict + independent-verify only reveal once the run has finished streaming */}
-      {done.finished && (
+      {finished && (
         <>
           <div className={'verdict ' + r.verdict}>
             <div className="v-badge">{LABEL[r.verdict]}</div>
@@ -90,16 +100,14 @@ function ResultView({ r }: { r: Result }) {
 
           <div className="repro">
             <div className="repro-h">Don't trust this console — reproduce it yourself:</div>
-            <div className="repro-row"><span>bytes (UTF-8)</span><code>{r.canonical}</code></div>
-            <div className="repro-row"><span>bytes (hex)</span><code>{r.canonicalHex}</code></div>
-            <div className="repro-row"><span>sha256 →</span><code>{r.recomputedRoot}</code></div>
-            <div className="repro-cmd">
-              <span className="cmt"># paste those exact bytes into any SHA-256 tool → same root. Or run the kit:</span>
-              <pre>echo -n '&lt;canonical bytes above&gt;' | shasum -a 256{'\n'}recompute-step receiptos/canonicalize evidence.json {r.recomputedRoot}</pre>
-            </div>
+            {r.reproduce.rows.map((row, i) => (
+              <div className="repro-row" key={i}><span>{row.label}</span><code>{row.value}</code></div>
+            ))}
+            <div className="repro-cmd"><pre>{r.reproduce.commands}</pre></div>
           </div>
 
           <div className="vantage"><b>vantage limitation.</b> {r.vantageLimitation}</div>
+          {r.signatureNote && <div className="vantage signote"><b>signature note.</b> {r.signatureNote}</div>}
         </>
       )}
     </section>
