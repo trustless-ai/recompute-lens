@@ -115,15 +115,17 @@ export async function recompute(proof: WitnessProof): Promise<Result> {
 }
 
 // --- conformance self-test: a real, live composed-evaluator sample -----------------------------
-// Source: github.com/composed-evaluators/verdict-envelope samples/witness-proof.json (PR #2,
-// merged 2026-07-06) — a real ThoughtProof Sentinel verdict, anchored via invinoveritas /witness.
+// Source: github.com/composed-evaluators/verdict-envelope samples/witness-proof-vta.json (PR #3,
+// merged 2026-07-07) — the documented live-trading-agent verdict (VANRY blow-off-top fade,
+// UNCERTAIN verdict), anchored via invinoveritas /witness. Swapped from the PR #2 sample per
+// Raul's fixture note (2026-07-12): this is the vector actually documented, not the first one.
 export const GOLDEN: WitnessProof = {
   proof_payload: {
     schema: 'invinoveritas.witnessed_claim.v1',
     source: 'sentinel.thoughtproof.ai',
-    body: "{\"apiVersion\":\"sentinel-api-0.1.0\",\"artifactSchema\":\"sentinel.verdict.canonical.v1\",\"confidence\":75,\"evaluatedAt\":1783377349,\"mode\":\"trade_reasoning\",\"models\":{\"primary\":\"serv-nano\",\"secondary\":\"serv-swift\"},\"objections\":[\"step_0: The agent's decision invokes three numerical thresholds: (1) price above SMA7, (2) price above SMA30, (3) RSI 56. The trace confirms: ETH $1800 > SMA7 $1750, ETH $1800 > SMA30 $1700, and RSI14 = 56. All thresholds are satisfied.\",\"step_1: The decision claims an uptrend thesis with ETH holding above rising SMAs. The trace shows: +4.2% 24h gain, +12% 7d gain, and price above both SMA7 and SMA30. All directional indicators point upward, consistent with the bullish framing.\",\"step_2: Classification of thesis claims: (1) 'ETH holds above rising SMA7 and SMA30' = factual, directly supported by trace. (2) 'RSI 56 leaves room for continuation' = interpretive judgment; RSI 56 is mid-range and does not signal overbought conditions, making the interpretation that momentum can continue logically sound. (3) 'measured long with invalidation below SMA7' = predictive/conditional; the invalidation level is derived from the stated support level (SMA7), creating internal coherence. No inferential defect detected: all claims either match the evidence or are reasonable interpretations/predictions grounded in the stated reasoning. [PROVENANCE DOWNGRADE: quote invalid or missing]\"],\"reasoning\":\"failScore=0.5 (1 critical step marginally unsupported). ALLOW with low confidence per ADR-0005 failScore-gate-decoupling.\\n\\n[sentinel-cascade primary_hold: primary=HOLD, secondary=CONDITIONAL_ALLOW]\",\"tier\":\"standard\",\"verdict\":\"ALLOW\",\"verificationId\":\"sent_fdfa8161fae649a5\"}",
-    body_hash: '27f0accb9d5b02afbbc673b5d1adbf646a002220bece6b3d1fe764504074a84b',
-    source_verification_note: 'source is self-declared by the caller who submitted this body, NOT cryptographically verified by invinoveritas.',
+    body: "{\"apiVersion\":\"sentinel-api-0.1.0\",\"artifactSchema\":\"sentinel.verdict.canonical.v1\",\"confidence\":100,\"evaluatedAt\":1783407984,\"mode\":\"trade_reasoning\",\"models\":{\"primary\":\"serv-nano\",\"secondary\":\"serv-swift\"},\"objections\":[\"step_0: The cited numerical thresholds are met by the visible evidence: 7d change is 186.85%, RSI14 is 92.91, and the thesis explicitly states $6.3B in 24h volume. No threshold is shown as unmet.\",\"step_1: The evidence is directionally consistent with the thesis's description of a strong upward move and parabolic rally. There is no contradiction in the visible trace.\",\"step_2: The thesis does not contradict itself: it identifies a blow-off-top setup, acknowledges the main counterargument, and explains that the short is sized modestly because of that uncertainty. The conclusion follows from the stated reasoning without unsupported leaps.\"],\"reasoning\":\"All critical steps adequately supported.\\n\\n[sentinel-cascade primary_hold: primary=HOLD, secondary=ALLOW]\",\"tier\":\"standard\",\"verdict\":\"UNCERTAIN\",\"verificationId\":\"sent_b982f4f28b0f4f03\"}",
+    body_hash: 'b70758bd5592535c4f5634c7a7555f81b25890c107e724abd763790013e2fa1b',
+    source_verification_note: "source is self-declared by the caller who submitted this body, NOT cryptographically verified by invinoveritas. This proof establishes WHEN this exact body was received and anchored, and WHAT it contains, byte-for-byte \u2014 it does not establish WHO actually authored it, and it carries no invinoveritas judgment about whether the content is sound.",
   },
 };
 
