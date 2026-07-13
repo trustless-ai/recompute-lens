@@ -3,6 +3,7 @@
 // golden-vector selfTest. Adding a recipe = one module + one entry here; the UI is generic.
 
 import * as receiptos from './recompute/receiptos-c14n-v0';
+import * as rulesetVersion from './recompute/ruleset-version-v0';
 import * as invino from './recompute/invinoveritas-witness-v1';
 import { KIT_RECIPES } from './recompute/kit';
 import type { Recipe } from './types';
@@ -77,4 +78,33 @@ const invinoRecipe: Recipe = {
   selfTest: async () => ({ ok: (await invino.selfTest()).ok }),
 };
 
-export const RECIPES: Recipe[] = [receiptosRecipe, invinoRecipe, ...KIT_RECIPES];
+const rulesetVersionRecipe: Recipe = {
+  id: rulesetVersion.PROFILE,
+  label: 'ruleset_version (profile carrier)',
+  profile: rulesetVersion.PROFILE,
+  blurb: 'Hash a recipe DECLARATION block (JCS canon + sha256) → ruleset_version. The semver is read back from the definition, never asserted. Reproduces Pavlo’s candidate vectors (crystal-receipt @ f0b9d47).',
+  fields: [
+    { key: 'definition', label: 'recipe_definition (JSON declaration block)', placeholder: '{"canonicalization":"JCS (RFC 8785)", … ,"profile":"…","version":"0.1.0"}', area: true },
+    { key: 'expected', label: 'Expected ruleset_version (optional)', placeholder: '0x…' },
+  ],
+  loadExample: () => ({ definition: JSON.stringify(rulesetVersion.GOLDEN.def01), expected: rulesetVersion.GOLDEN.RV1 }),
+  run: async (f) => {
+    const p = asObject(f.definition || '');
+    if (!p.ok) return { error: p.error };
+    const r = await rulesetVersion.recompute(p.value, f.expected || null);
+    return {
+      profile: r.profile, log: r.log, verdict: r.verdict, reason: r.reason, vantageLimitation: r.vantageLimitation,
+      reproduce: {
+        rows: [
+          { label: 'C(definition) bytes', value: r.canonical },
+          { label: 'declares', value: `${r.declaredProfile ?? '?'} / ${r.declaredVersion ?? '?'} (read from the hash)` },
+          { label: 'ruleset_version →', value: r.rulesetVersion },
+        ],
+        commands: "# hash the declaration block in any tool → same version:\nprintf '%s' '<C(definition) bytes above>' | shasum -a 256",
+      },
+    };
+  },
+  selfTest: async () => ({ ok: (await rulesetVersion.selfTest()).ok }),
+};
+
+export const RECIPES: Recipe[] = [receiptosRecipe, rulesetVersionRecipe, invinoRecipe, ...KIT_RECIPES];
