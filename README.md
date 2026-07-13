@@ -13,11 +13,30 @@ The kit verifies records for agents and CI. The lens does it **for people**: poi
 
 ## Recipes
 
-| profile | what it verifies | status |
-|---|---|---|
-| `receiptos-c14n-v0` | ReceiptOS §2.8 receipt_root — `0x·sha256(C(strip_anchor(E)))`, JCS + anchor-strip | ✅ screen #1 (byte-exact on the §2.8 π golden vector) |
+Pick a recipe from the dropdown, load its example (or paste your own record), and watch the console re-derive it line by line. Every recipe self-tests against its **golden vector** on load — the conformance badge reads "all N recipes conformant" only when each one reproduces its published vector in your browser.
 
-Mirrors the recompute-kit recipe of the same name; the §2.8 vector is the shared conformance anchor.
+**Native profiles**
+
+| profile | what it verifies |
+|---|---|
+| `receiptos-c14n-v0` | ReceiptOS §2.8 `receipt_root` — `0x·sha256(C(strip_anchor(E)))`, JCS + top-level anchor-strip |
+| `invinoveritas-witness-v1` | Composed-evaluator witness anchor — `sha256(body)` body integrity (not the signature) |
+
+**recompute-kit ports** (each byte-exact vs the kit's `agent-flow.vectors.json`)
+
+| profile | what it verifies |
+|---|---|
+| `wyriwe/raw` (ERC-8299 §45) | `raw_input_hash = keccak256(raw_user_input)` — the input-provenance leg |
+| `wyriwe/pipeline` (ERC-8299 §46) | `sanitization_pipeline_hash = keccak256(utf8(cid) ‖ raw_input_hash)` |
+| `name/keccak-binding` | `keccak256(utf8(label))` — a name→handle binding (not the 8004 agentId, not an ENS namehash) |
+| `ens/namehash` (EIP-137) | `node = keccak(parent ‖ keccak(label))` over labels — the id ENS resolves |
+| `8004/agent-id` (ERC-8004) | `agentId = bytes32(uint256(registryId))` — registry-assigned, left-padded (not a hash) |
+| `scope/binding` | `scopeRoot = keccak256(abi.encode(merkleRoot, count))` — truncation-resistant |
+| `8203/settlement-proof` | `verdictHash = keccak256(abi.encode(jobId, keccak256(utf8(resultText))))` — ConsultEscrow release |
+| `8275/reputation` | `winRate = gated_wins / (gated_wins + gated_losses)` — the recomputable **input**, not the composite score |
+| `8301/task-hash` | INITIAL-task `taskHash = keccak256(abi.encode(…7 fields…))`; empty `prevReplyHashes → keccak256(0x)`, not `bytes32(0)` |
+
+Native recipes use Web Crypto (sha256); kit ports use [viem](https://viem.sh) (keccak256 / `encodeAbiParameters` / namehash) — all synchronous, all in-browser. Adding a recipe is one module + one registry entry; the UI is generic.
 
 ## Run
 
@@ -29,8 +48,9 @@ npm run build    # tsc + vite build
 
 ## Roadmap
 
-- More recipes (task-hash, input-provenance, on-chain anchor) — same "show the reproduction" render.
-- `ruleset_version` binding — display **"verified under profile X (content-hash …)"**; an unrecognized profile → `unverifiable` (per the group's ruleset-version spec).
-- Shareable re-check permalinks (the recompute is itself pinnable → someone re-checks you).
+- **RPC-backed recipes** — recipes that read chain state (on-chain anchor, value-fidelity, bond-standing) against a public RPC you point anywhere; same "show the reproduction" render.
+- **`ruleset_version` binding** — display **"verified under profile X (content-hash …)"**; an unrecognized profile → `unverifiable` (per the group's ruleset-version spec).
+- **Composed verdicts, tagged per input** — when a verdict consumes another layer's output (e.g. an ERC-8126 ZK standing score), tag each input `recomputed-legible` vs `verified-in-proof`. A composed verdict is only as legible as its least-legible input; the surface must never let a green imply end-to-end recompute when only one layer earns it.
+- **Shareable re-check permalinks** — the recompute is itself pinnable → someone re-checks you.
 
 Standards-family design note: the shared concept doc (`Human-Provable Recompute`) — https://gist.github.com/TMerlini/6c493cdd39a8f7dbf44090b126d649ca
