@@ -66,6 +66,18 @@ const KITS: Kit[] = [
     cmd: (f, o) => `recompute-step name/keccak-binding "${f.label}" ${o}`,
   },
   {
+    id: '8281/observation-digest', label: 'ERC-8281 · OCP observation digest', profile: 'ERC-8281 §1',
+    blurb: 'digest = keccak256(observation) — the opaque OCP commitment record()s on-chain. NOT a hash of any name.',
+    fields: [{ key: 'observation', label: 'observation (utf-8)', placeholder: 'eip155:1:0x…/2 executed:…' }, { key: 'expected', label: 'expected (optional)', placeholder: '0x…' }],
+    example: { observation: 'eip155:1:0xe61f5a6783ae09949b9a1b6821b68f89c0d7bb2d/2 executed:forensic-report', expected: '0xae5fa1763e69150df1a3ee3434052c345e1450d4ab5dc642c0c8dd941206da81' },
+    compute: (f) => {
+      const observation = need(f.observation, 'observation');
+      const v = keccak256(stringToHex(observation));
+      return { value: v, steps: [L('cmd', 'recompute · 8281/observation-digest'), L('dim', 'digest = keccak256( utf8(observation) )'), L('step', '[1] keccak256( utf8(observation) )'), L('out', `utf8 → ${stringToHex(observation)}`), L('out', v)] };
+    },
+    cmd: (f, o) => `recompute-step 8281/observation-digest "${f.observation}" ${o}`,
+  },
+  {
     id: 'ens/namehash', label: 'ENS namehash (EIP-137)', profile: 'EIP-137',
     blurb: 'node = keccak(parent ‖ keccak(label)) over labels — the id ENS resolves.',
     fields: [{ key: 'name', label: 'ENS name', placeholder: 'agent.eth' }, { key: 'expected', label: 'expected (optional)', placeholder: '0x…' }],
