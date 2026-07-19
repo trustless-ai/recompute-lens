@@ -134,8 +134,19 @@ const KITS: Kit[] = [
     example: { wins: '16', losses: '15', expected: '0.5161' },
     compute: (f) => {
       const w = Number(need(f.wins, 'wins')); const l = Number(need(f.losses, 'losses'));
-      if (!Number.isFinite(w) || !Number.isFinite(l) || w + l <= 0) throw new Error('wins/losses must be numbers with a positive total');
-      const v = (w / (w + l)).toFixed(4);
+      if (!Number.isFinite(w) || !Number.isFinite(l) || !Number.isInteger(w) || !Number.isInteger(l) || w < 0 || l < 0 || w + l <= 0) {
+        throw new Error('wins/losses must be non-negative integers with a positive total');
+      }
+      // ROUND_HALF_UP over exact integer arithmetic (BigInt), not .toFixed() -- .toFixed() rounds
+      // the *binary float* w/l, which is unreliable at a tie (the classic (1.005).toFixed(2)=="1.00"
+      // class of bug: 1.005 isn't exactly representable, so its nearest double is a hair under 1.005).
+      // This must match the canonical kit's rounding convention (Decimal + ROUND_HALF_UP) bit-for-bit,
+      // not "close enough by luck" -- see 8275-reputation-rounding-tie in recompute-kit.
+      const W = BigInt(w), L_ = BigInt(l);
+      const num = W * 10000n, den = W + L_;
+      let q = num / den;
+      if (2n * (num % den) >= den) q += 1n;
+      const v = (Number(q) / 10000).toFixed(4);
       return { value: v, steps: [L('cmd', 'recompute · 8275/reputation'), L('dim', 'winRate = gated_wins / (gated_wins + gated_losses)'), L('step', `[1] ${w} / (${w} + ${l})`), L('out', `= ${v}`)] };
     },
     cmd: (f, o) => `recompute-step 8275/reputation  # winRate=${o} from wins=${f.wins} losses=${f.losses}`,
