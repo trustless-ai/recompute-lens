@@ -13,9 +13,19 @@ export interface LensResult {
   vantageLimitation: string;
   signatureNote?: string;
   reproduce: { rows: ReproRow[]; commands: string };
+  // These optional dimensions belong to the new bounded browser profiles only.
+  // Existing recipe results and the separate six-field RVR format are unchanged.
+  dimensions?: {
+    proofValidity: 'VERIFIED' | 'REFUTED' | 'UNVERIFIABLE';
+    anchorAssurance: 'CHAIN_CONSISTENT' | 'ANCHOR_UNCHECKED';
+    execution: 'BROWSER';
+    nativeResult: string;
+    hostComparison: 'NOT_SUPPLIED' | 'MATCH' | 'DISAGREEMENT' | 'MALFORMED';
+    notCovered: string[];
+  };
 }
 
-export interface Field { key: string; label: string; placeholder: string; area?: boolean }
+export interface Field { key: string; label: string; placeholder: string; area?: boolean; bytes?: boolean }
 
 export interface Recipe {
   id: string;

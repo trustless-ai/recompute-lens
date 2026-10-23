@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Recipe conformance harness</title></head>
+<body><p>Local test harness; not the production verifier UI.</p><script type="module">
+import { RECIPES } from '/src/recipes.ts';
+import { evaluateProof, admitSubject, compareHost } from '/src/recompute/agent-anchor/proof.js';
+import { checkFile, checkChain } from '/src/recompute/agent-anchor/slot.js';
+import { fromBase64 } from '/src/recompute/agent-anchor/bytes.js';
+window.lensTest = { RECIPES, evaluateProof, admitSubject, compareHost, checkFile, checkChain, fromBase64 };
+</script></body></html>

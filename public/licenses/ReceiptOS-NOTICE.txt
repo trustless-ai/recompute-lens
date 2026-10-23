@@ -1,0 +1,14 @@
+ReceiptOS Verify
+Copyright 2026 Pavlo Tvardovskyi
+
+Selected upstream components retain their own notices and licenses in vendor/.
+See PROVENANCE.md and provenance/sources.json for source identities and contribution boundaries.
+
+v0.2 selected native components retain separate grants:
+trustless-ai/semantic-abi: Apache-2.0, including shared neutral runtime contributions.
+trustless-ai/recompute-kit: CC0-1.0, including shared checker and runner contributions.
+Interpoll1/decentralised: Unlicense, selected signed public engagement verifier.
+pipavlo82/protected-relation-fixtures: MIT, Copyright (c) 2026 Pavlo Tvardovskyi.
+Their unchanged license files remain in the corresponding vendor/*-v02 directories.
+See THIRD_PARTY_NOTICES.md for exact pins and scope. The product Apache grant
+does not replace these grants or imply sole authorship of shared upstream code.
