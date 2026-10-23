@@ -8,7 +8,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:agent-anchor": "node tests/agent-anchor/conformance.mjs",
+    "test:browser": "playwright test",
+    "test:fixtures": "node tests/agent-anchor/generate-extra.mjs",
+    "test:mutations": "node tests/agent-anchor/mutations.mjs",
+    "test:validate": "python tests/agent-anchor/validate.py"
   },
   "dependencies": {
     "react": "^19.2.7",
@@ -16,6 +21,7 @@
     "viem": "^2.55.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

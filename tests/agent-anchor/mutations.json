@@ -1,0 +1,849 @@
+{
+  "schema": "lens.physical-mutations.v0",
+  "mutations": [
+    {
+      "id": "subject-binding",
+      "kind": "PROOF",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "e.subject_profile !== SUBJECT || e.subject_id !== id",
+          "new": "false",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "policy-signature",
+      "kind": "PROOF",
+      "witness": "BAD_POLICY_SIGNATURE",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (!await verifyEd25519(",
+          "new": "if (false && !await verifyEd25519(",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "policy-selection",
+      "kind": "PROOF",
+      "witness": "POLICY_NOT_SELECTED",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (id !== configuration.policy_id)",
+          "new": "if (false && id !== configuration.policy_id)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "policy-reference",
+      "kind": "PROOF",
+      "witness": "POLICY_REF_WRONG",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "e.policy_ref !== p.id || p.body.proof_profile !== e.proof_profile",
+          "new": "false",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "input-cannot-select-trust",
+      "kind": "PROOF",
+      "witness": "BROWSER_INPUT_SUPPLIED_CONFIGURATION",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "authenticate(input.policy, configuration)",
+          "new": "authenticate(input.policy, input.configuration ?? configuration)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "envelope-cannot-select-authority",
+      "kind": "PROOF",
+      "witness": "SELF_SUPPLIED_TRUST",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "authenticate(input.policy, configuration)",
+          "new": "authenticate(input.policy, {...configuration, authorities:e.untrusted_authorities ?? configuration?.authorities})",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "envelope-cannot-select-checkpoint-key",
+      "kind": "PROOF",
+      "witness": "PROOF_SUPPLIED_CHECKPOINT_KEYS",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "trusted_keys: p.body.checkpoint_keys",
+          "new": "trusted_keys: e.untrusted_checkpoint_keys ?? p.body.checkpoint_keys",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "policy-log-binding",
+      "kind": "PROOF",
+      "witness": "WRONG_LOG",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (e.log_id !== p.body.log_id)",
+          "new": "if (false && e.log_id !== p.body.log_id)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "selected-checkpoint",
+      "kind": "PROOF",
+      "witness": "WRONG_CHECKPOINT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (e.checkpoint_id !== p.body.checkpoint_id)",
+          "new": "if (false && e.checkpoint_id !== p.body.checkpoint_id)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "profile-mechanism-pair",
+      "kind": "PROOF",
+      "witness": "BROWSER_CROSS_LABEL_MECHANISM",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if ((e.proof_profile === MANIFEST ? 'local-ed25519' : 'snapshot-digest') !== e.anchor_mechanism)",
+          "new": "if (false && (e.proof_profile === MANIFEST ? 'local-ed25519' : 'snapshot-digest') !== e.anchor_mechanism)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "native-refusal",
+      "kind": "PROOF",
+      "witness": "CORRUPT_SIBLING",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (native.status !== 'VERIFIED')",
+          "new": "if (false && native.status !== 'VERIFIED')",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "timestamp-not-label",
+      "kind": "PROOF",
+      "witness": "CLAIMED_OTS",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (e.timestamp !== null)",
+          "new": "if (false && e.timestamp !== null)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "timestamp-required",
+      "kind": "PROOF",
+      "witness": "MISSING_TIMESTAMP",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (p.body.require_timestamp)",
+          "new": "if (false && p.body.require_timestamp)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-subject-binding",
+      "kind": "PROOF",
+      "witness": "SLOT_WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "s.inclusion.line.scope !== 'decider' || s.inclusion.line.claim_sha256 !== await sha256(canonicalize(claim))",
+          "new": "false",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-chain-required",
+      "kind": "PROOF",
+      "witness": "CHAIN_REQUIRED",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (p.body.require_chain && !s.previous)",
+          "new": "if (false && p.body.require_chain && !s.previous)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "assurance-separation",
+      "kind": "ASSURANCE",
+      "witness": "B_VALID_CHAIN",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "chained ? 'CHAIN_CONSISTENT' : 'ANCHOR_UNCHECKED'",
+          "new": "chained ? 'ANCHORED_VERIFIED' : 'ANCHOR_UNCHECKED'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-leaf-binding",
+      "kind": "PROOF",
+      "witness": "VALID_PROOF_OTHER_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(!equal(evidence.leaf,await receiptLeaf(receiptRoot)))",
+          "new": "if(false && !equal(evidence.leaf,await receiptLeaf(receiptRoot)))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-tree-size",
+      "kind": "PROOF",
+      "witness": "BROWSER_SIGNED_SIZE_CONFLICT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(evidence.proof?.leafCount!==c.body.tree_size)",
+          "new": "if(false && evidence.proof?.leafCount!==c.body.tree_size)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-root-algorithm",
+      "kind": "PROOF",
+      "witness": "BROWSER_WRONG_ALGORITHM_SIGNED",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "capsule.js",
+          "old": "&& computedRoot === expectedRoot",
+          "new": "&& true",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-odd-node",
+      "kind": "PROOF",
+      "witness": "BROWSER_ODD_LEAF_INVALID",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "capsule.js",
+          "old": "if (cursor % 2 === 0 && cursor + 1 >= width && sibling.hash !== current)",
+          "new": "if (false && cursor % 2 === 0 && cursor + 1 >= width && sibling.hash !== current)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-body-identity",
+      "kind": "PROOF",
+      "witness": "BROWSER_FAKE_CHECKPOINT_ID_SELECTED",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(c.id!==await checkpointIdentity(c.body))",
+          "new": "if(false && c.id!==await checkpointIdentity(c.body))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "native-checkpoint-selection",
+      "kind": "PROOF",
+      "witness": "BROWSER_NATIVE_UNSELECTED_CHECKPOINT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(c.id!==selection.checkpoint_id)",
+          "new": "if(false && c.id!==selection.checkpoint_id)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-log",
+      "kind": "PROOF",
+      "witness": "BROWSER_BAD_CHECKPOINT_LOG",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(c.body.log_id!==selection.log_id)",
+          "new": "if(false && c.body.log_id!==selection.log_id)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-signature",
+      "kind": "PROOF",
+      "witness": "INVALID_CHECKPOINT_SIGNATURE",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(!await verifyEd25519(",
+          "new": "if(false && !await verifyEd25519(",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-history-required",
+      "kind": "PROOF",
+      "witness": "BROWSER_MANIFEST_REQUIRED_HISTORY",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(selection.require_consistency&&!evidence.consistency)",
+          "new": "if(false && selection.require_consistency&&!evidence.consistency)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-history-link",
+      "kind": "PROOF",
+      "witness": "A_CHAIN_CONFLICT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(previous.id!==await checkpointIdentity(previous.body)||c.body.previous_checkpoint_id!==previous.id",
+          "new": "if(false && previous.id!==await checkpointIdentity(previous.body)||false && c.body.previous_checkpoint_id!==previous.id",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "manifest-old-entry",
+      "kind": "PROOF",
+      "witness": "BROWSER_MANIFEST_CHANGED_OLD_ENTRY",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(oldTree.manifest.some(old=>!newTree.manifest.some(now=>equal(old,now))))",
+          "new": "if(false && oldTree.manifest.some(old=>!newTree.manifest.some(now=>equal(old,now))))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-position",
+      "kind": "PROOF",
+      "witness": "SLOT_WRONG_POSITION",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (!Number.isSafeInteger(index) || index < 0 || index >= s.lines.length || !same(s.lines[index], data.inclusion.line))",
+          "new": "if (false && (!Number.isSafeInteger(index) || index < 0 || index >= s.lines.length || !same(s.lines[index], data.inclusion.line)))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-count",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_WRONG_COUNT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (!Number.isSafeInteger(get(data, 'count')) || data.count !== s.lines.length)",
+          "new": "if (false && (!Number.isSafeInteger(get(data, 'count')) || data.count !== s.lines.length))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-full-snapshot",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_FALSE_SNAPSHOT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (await root(await Promise.all(raw.slice(1).map(sha))) !== header.merkle_root)",
+          "new": "if (false && await root(await Promise.all(raw.slice(1).map(sha))) !== header.merkle_root)",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "slot-history",
+      "kind": "PROOF",
+      "witness": "MODIFIED_HISTORY",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (data.previous != null) await checkChain",
+          "new": "if (false && data.previous != null) await checkChain",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "raw-canonical",
+      "kind": "ADMISSION",
+      "witness": "RAW_NEWLINE",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (!equalBytes(raw, canonicalize(v)))",
+          "new": "if (false && !equalBytes(raw, canonicalize(v)))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "unsupported-envelope-version",
+      "kind": "PROOF",
+      "witness": "UNSUPPORTED_VERSION",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (e?.profile !== ENVELOPE || ![MANIFEST, SLOT].includes(e.proof_profile))",
+          "new": "if (false && (e?.profile !== ENVELOPE || ![MANIFEST, SLOT].includes(e.proof_profile)))",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "negative-zero-domain",
+      "kind": "ADMISSION",
+      "witness": "RAW_NEGATIVE_ZERO",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "Object.is(n, -0)",
+          "new": "false",
+          "count": 1
+        },
+        {
+          "file": "strict-json.js",
+          "old": "Object.is(value, -0)",
+          "new": "false",
+          "count": 1
+        },
+        {
+          "file": "proof.js",
+          "old": "if (!equalBytes(raw, canonicalize(v)))",
+          "new": "if (false && !equalBytes(raw, canonicalize(v)))",
+          "count": 1
+        }
+      ],
+      "note": "Three-site guarantee removal: lexical negative zero, canonical number admission, and raw byte equality."
+    },
+    {
+      "id": "host-disagreement-diagnostic",
+      "kind": "DIAGNOSTIC",
+      "witness": "HOST_DIAGNOSTIC",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "? 'MATCH' : 'DISAGREEMENT'",
+          "new": "? 'MATCH' : 'MATCH'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "safe-integer-domain",
+      "kind": "ADMISSION",
+      "witness": "RAW_UNSAFE_INTEGER",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "!Number.isSafeInteger(n)",
+          "new": "false",
+          "count": 1
+        },
+        {
+          "file": "strict-json.js",
+          "old": "!Number.isSafeInteger(value)",
+          "new": "false",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "unicode-scalar-domain",
+      "kind": "ADMISSION",
+      "witness": "RAW_LONE_SURROGATE",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "export function scalarString(value) {",
+          "new": "export function scalarString(value) { return value;",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "safe-key-domain",
+      "kind": "ADMISSION",
+      "witness": "RAW_UNSAFE_KEY",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": " || forbidden.has(key)",
+          "new": "",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "byte-size-bound",
+      "kind": "ADMISSION",
+      "witness": "RAW_OVER_4MIB",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "bytes.length > MAX_DOCUMENT_BYTES",
+          "new": "bytes.length > MAX_DOCUMENT_BYTES + 8",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "nesting-bound",
+      "kind": "ADMISSION",
+      "witness": "RAW_DEPTH_33",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "depth >= 32",
+          "new": "depth >= 33",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "duplicate-admission-boundary",
+      "kind": "ADMISSION",
+      "witness": "RAW_DUPLICATE",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "if (Object.hasOwn(obj, key))",
+          "new": "if (false && Object.hasOwn(obj, key))",
+          "count": 1
+        },
+        {
+          "file": "proof.js",
+          "old": "if (!equalBytes(raw, canonicalize(v)))",
+          "new": "if (false && !equalBytes(raw, canonicalize(v)))",
+          "count": 1
+        }
+      ],
+      "note": "Two-site guarantee removal: duplicate detection and raw canonical equality independently refuse duplicate bytes."
+    },
+    {
+      "id": "utf8-admission-boundary",
+      "kind": "ADMISSION",
+      "witness": "RAW_EMBEDDED_INVALID_UTF8",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "strict-json.js",
+          "old": "fatal: true",
+          "new": "fatal: false",
+          "count": 1
+        },
+        {
+          "file": "proof.js",
+          "old": "if (!equalBytes(raw, canonicalize(v)))",
+          "new": "if (false && !equalBytes(raw, canonicalize(v)))",
+          "count": 1
+        }
+      ],
+      "note": "Two-site guarantee removal: fatal UTF-8 decoding and exact raw canonical equality."
+    },
+    {
+      "id": "native-slot-root-defense",
+      "kind": "CONTROLLED_NATIVE_FAULT",
+      "witness": "B_VALID_CHAIN",
+      "controls": [
+        "A_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "if (native.log_root !== e.checkpoint_id)",
+          "new": "if (false && native.log_root !== e.checkpoint_id)",
+          "count": 1
+        }
+      ],
+      "setup_edits": [
+        {
+          "file": "slot.js",
+          "old": "log_root: s.root",
+          "new": "log_root: '0'.repeat(64)",
+          "count": 1
+        }
+      ],
+      "note": "Induced native-report fault, not an observed upstream defect. Faulted baseline REFUTED, guard removed VERIFIED, guard restored REFUTED, then all fault bytes restored."
+    },
+    {
+      "id": "sentinel-noop",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export const SUBJECT = 'agent-action.subject-record.v0';",
+          "new": "export const SUBJECT = 'agent-action.subject-record.v0';",
+          "count": 1
+        }
+      ],
+      "expected_classification": "NO_OP"
+    },
+    {
+      "id": "sentinel-crash",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export async function evaluateProof(",
+          "new": "export async function !!!(",
+          "count": 1
+        }
+      ],
+      "expected_classification": "CRASHED"
+    },
+    {
+      "id": "sentinel-empty",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export async function evaluateProof(input, configuration, trace = []) {",
+          "new": "export async function evaluateProof(input, configuration, trace = []) { return undefined;",
+          "count": 1
+        }
+      ],
+      "expected_classification": "MISSING_OUTPUT"
+    },
+    {
+      "id": "sentinel-unapplied",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "THIS_ANCHOR_DOES_NOT_EXIST",
+          "new": "no change",
+          "count": 1
+        }
+      ],
+      "expected_classification": "NOT_APPLIED"
+    }
+  ]
+}

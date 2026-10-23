@@ -40,6 +40,19 @@ Native recipes use Web Crypto (sha256); kit ports use [viem](https://viem.sh) (k
 
 ## Run
 
+### Experimental action and anchor recipes
+
+Three additional browser recipes implement `agent-action.subject-record.v0`,
+`receiptos.manifest-proof.v0` and `invinoveritas.decision_receipt.slot_log.v1`
+under the common `chain-neutral.anchor-proof-envelope.v0` contract. They keep
+proof validity, anchor assurance and explicit NOT_COVERED guarantees separate.
+Original byte upload and independently selected policy configuration are supported.
+The existing recipes, including historical top-level anchor stripping, retain
+their identities. See [scope, source pins and exact replay](research/agent-action-anchor-browser-v0/README.md),
+[limits](research/agent-action-anchor-browser-v0/LIMITATIONS.md) and
+[retained upstream licenses](THIRD_PARTY_NOTICES.md).
+
+
 ```bash
 npm install
 npm run dev      # http://localhost:5173

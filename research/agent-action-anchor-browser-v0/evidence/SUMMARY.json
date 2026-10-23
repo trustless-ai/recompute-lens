@@ -1,0 +1,81 @@
+{
+  "schema": "lens.browser-replay-evidence.v0",
+  "implementation_commit": "de695f06a55684843baa7e80549786eedf7d7d7a",
+  "base": "61f7392f1c4758231517b22ba06ab608dedbae02",
+  "passed": true,
+  "recommendation": "READY_FOR_INDEPENDENT_REVIEW",
+  "scope": "Author reproducibility; not independent organizational certification",
+  "runs": {
+    "windows": {
+      "passed": true,
+      "runtime": {
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "node": "v22.15.0",
+        "platform": "win32"
+      },
+      "commands": 16,
+      "unchanged_files": 68
+    },
+    "linux": {
+      "passed": true,
+      "runtime": {
+        "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+        "node": "v20.19.5",
+        "platform": "linux"
+      },
+      "commands": 16,
+      "unchanged_files": 68
+    }
+  },
+  "behavioral_digests": {
+    "node": {
+      "normal": "c77ecc4bb50fc8a0cfe0481c2a11b67ce14ec3b1ce9ea75ec9915b621f3724db",
+      "repeat": "c77ecc4bb50fc8a0cfe0481c2a11b67ce14ec3b1ce9ea75ec9915b621f3724db",
+      "no-opt": "c77ecc4bb50fc8a0cfe0481c2a11b67ce14ec3b1ce9ea75ec9915b621f3724db"
+    },
+    "chromium": {
+      "normal": "dfa596f244e26cc88a575a5b2eab0c8fd3470155fdcfdf98d60fa0b71baa6182",
+      "repeat": "dfa596f244e26cc88a575a5b2eab0c8fd3470155fdcfdf98d60fa0b71baa6182"
+    },
+    "production": {
+      "normal": "c82cfa2f79cd130baf3c1c8a413df34821f6af9bf2159f72656333eb6a83755e",
+      "repeat": "c82cfa2f79cd130baf3c1c8a413df34821f6af9bf2159f72656333eb6a83755e"
+    },
+    "physical_mutations": {
+      "normal": "498021b6660e1ce811f0efdf7862f1a765702639118c3225e11defea078f9908",
+      "repeat": "498021b6660e1ce811f0efdf7862f1a765702639118c3225e11defea078f9908"
+    }
+  },
+  "cross_platform_byte_equal": true,
+  "counts": {
+    "upstream_projections": 49,
+    "browser_projections": 21,
+    "slot_vectors": 15,
+    "byte_admission": 19,
+    "goldens": 16,
+    "playwright_groups": 6
+  },
+  "physical_mutations": {
+    "semantic": {
+      "KILLED": 41
+    },
+    "diagnostic": {
+      "DIAGNOSTIC_DETECTED": 1
+    },
+    "controlled_fault": {
+      "KILLED": 1
+    },
+    "sentinel": {
+      "NO_OP": 1,
+      "CRASHED": 1,
+      "MISSING_OUTPUT": 1,
+      "NOT_APPLIED": 1
+    }
+  },
+  "incidents": {
+    "repaired_base64_limit": "Initial failed browser boundary control, repaired before implementation commit",
+    "overlapping_local_port": "First Windows fresh run failed on occupied port while WSL used it; sequential full replay passed; not a successful setup/test"
+  },
+  "archive_sha256": "9c47bf80551432418b96fa31e61847b3a60d58e7fec66e712038560eecfd8a80",
+  "archive_members": 147
+}

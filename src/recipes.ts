@@ -6,6 +6,7 @@ import * as receiptos from './recompute/receiptos-c14n-v0';
 import * as rulesetVersion from './recompute/ruleset-version-v0';
 import * as invino from './recompute/invinoveritas-witness-v1';
 import { KIT_RECIPES } from './recompute/kit';
+import { AGENT_ANCHOR_RECIPES } from './recompute/agent-anchor/recipes';
 import type { Recipe } from './types';
 
 export type { LensResult, LogLine, TriState, Recipe } from './types';
@@ -107,4 +108,4 @@ const rulesetVersionRecipe: Recipe = {
   selfTest: async () => ({ ok: (await rulesetVersion.selfTest()).ok }),
 };
 
-export const RECIPES: Recipe[] = [receiptosRecipe, rulesetVersionRecipe, invinoRecipe, ...KIT_RECIPES];
+export const RECIPES: Recipe[] = [receiptosRecipe, rulesetVersionRecipe, invinoRecipe, ...KIT_RECIPES, ...AGENT_ANCHOR_RECIPES];

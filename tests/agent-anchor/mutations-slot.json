@@ -1,0 +1,30 @@
+{
+  "schema": "lens.physical-mutation-catalog.v0",
+  "population": "supplemental-slot-path-v0",
+  "mutations": [
+    {
+      "id": "slot-path-root",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_INVALID_PATH",
+      "controls": ["A_VALID", "B_VALID_CHAIN"],
+      "edits": [{
+        "file": "slot.js",
+        "old": "if (h !== get(get(log, 'header'), 'merkle_root'))",
+        "new": "if (false)",
+        "count": 1
+      }]
+    },
+    {
+      "id": "slot-literal-side",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_SIDE_ALIAS",
+      "controls": ["A_VALID", "B_VALID_CHAIN"],
+      "edits": [{
+        "file": "slot.js",
+        "old": "if (!['L', 'R'].includes(step.side) || typeof step.hash !== 'string' || !/^[0-9a-f]{64}$/.test(step.hash))",
+        "new": "if (typeof step.hash !== 'string' || !/^[0-9a-f]{64}$/.test(step.hash))",
+        "count": 1
+      }]
+    }
+  ]
+}

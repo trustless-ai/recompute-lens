@@ -1,0 +1,114 @@
+{
+  "schema": "lens.physical-mutation-catalog.v0",
+  "population": "echo-review-regression-v0",
+  "mutations": [
+    {
+      "id": "duplicate-checkpoint-key-id",
+      "kind": "PROOF",
+      "witness": "REVIEW_DUPLICATE_KEY_ATTACKER_FIRST",
+      "controls": [
+        "A_VALID",
+        "B_VALID_CHAIN"
+      ],
+      "edits": [
+        {
+          "file": "manifest.js",
+          "old": "if(new Set(selection.trusted_keys.map(k=>k.id)).size!==selection.trusted_keys.length)throw new Error('AMBIGUOUS_LOG_TRUST_ROOT');",
+          "new": "/* review control: duplicate key check removed */",
+          "count": 1
+        }
+      ],
+      "note": "Policy and checkpoint signatures independently verified. Attacker-first removal reaches VERIFIED; second ordering remains explicitly UNVERIFIABLE only with guard, not counted as a signature-based kill."
+    },
+    {
+      "id": "sentinel-noop",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export const SUBJECT = 'agent-action.subject-record.v0';",
+          "new": "export const SUBJECT = 'agent-action.subject-record.v0';",
+          "count": 1
+        }
+      ],
+      "expected_classification": "NO_OP"
+    },
+    {
+      "id": "sentinel-crash",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export async function evaluateProof(",
+          "new": "export async function !!!(",
+          "count": 1
+        }
+      ],
+      "expected_classification": "CRASHED"
+    },
+    {
+      "id": "sentinel-empty",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "export async function evaluateProof(input, configuration, trace = []) {",
+          "new": "export async function evaluateProof(input, configuration, trace = []) { return undefined;",
+          "count": 1
+        }
+      ],
+      "expected_classification": "MISSING_OUTPUT"
+    },
+    {
+      "id": "sentinel-unapplied",
+      "kind": "SENTINEL",
+      "witness": "WRONG_RECEIPT",
+      "controls": [
+        "A_VALID",
+        "UNANCHORED_VALID"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "THIS_ANCHOR_DOES_NOT_EXIST",
+          "new": "no change",
+          "count": 1
+        }
+      ],
+      "expected_classification": "NOT_APPLIED"
+    },
+    {
+      "id": "sentinel-control-broken",
+      "kind": "SENTINEL",
+      "witness": "REVIEW_DUPLICATE_KEY_ATTACKER_FIRST",
+      "controls": [
+        "A_VALID",
+        "B_VALID_CHAIN"
+      ],
+      "edits": [
+        {
+          "file": "proof.js",
+          "old": "projection: 'chain-neutral.result.v0'",
+          "new": "projection: 'deliberately-broken-control.v0'",
+          "count": 1
+        }
+      ],
+      "expected_classification": "CONTROL_BROKEN"
+    }
+  ]
+}
