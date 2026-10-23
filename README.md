@@ -54,3 +54,7 @@ npm run build    # tsc + vite build
 - **Shareable re-check permalinks** — the recompute is itself pinnable → someone re-checks you.
 
 Standards-family design note: the shared concept doc (`Human-Provable Recompute`) — https://gist.github.com/TMerlini/6c493cdd39a8f7dbf44090b126d649ca
+
+## License
+
+[CC0 1.0](LICENSE) — dedicated to the public domain, like the rest of the trustless-ai commons. Both contributors agreed to the dedication in the working group on 2026-10-23.
