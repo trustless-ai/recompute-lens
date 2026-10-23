@@ -18,7 +18,8 @@ if(!out.startsWith(repo+sep))throw new Error('Mutation output must be inside iso
 mkdirSync(out,{recursive:true});
 const load=name=>JSON.parse(readFileSync(resolve(repo,'tests/agent-anchor',name)));
 const kit=load('fixtures/kit-vectors.json'),extra=load('fixtures/browser-vectors.json');
-const cases=new Map([...kit.vectors,...extra.vectors].map(v=>[v.name,v]));
+const review=load('fixtures/review-regressions-v0.json');
+const cases=new Map([...kit.vectors,...extra.vectors,...review.vectors].map(v=>[v.name,v]));
 const rawCases=new Map(admissionCases(new Uint8Array(Buffer.from(kit.vectors[0].input.subject_base64,'base64'))).map(v=>[v.name,v]));
 const catalogOption=process.argv.indexOf('--catalog');
 const mutations=load(catalogOption>=0?process.argv[catalogOption+1]:'mutations.json').mutations;

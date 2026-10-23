@@ -108,3 +108,35 @@ adaptations against the pinned originals, reproduce raw results, inspect each
 baseline/mutant/restored witness and positive control, and verify the two result
 dimensions and separate configuration channel in the UI. Author fresh-checkout
 replay and CI are reproducibility evidence, not independent organizational review.
+
+## Echo review regression supplement
+
+`tests/agent-anchor/fixtures/review-regressions-v0.json` is a separate versioned
+corpus: 26 proof cases and two host-comparison cases, deterministically generated
+by `generate-review-regressions.mjs` without importing a verifier. These are
+locally authored reconstructions of the scenarios documented in
+[Echo's review](https://github.com/trustless-ai/recompute-lens/pull/2#issuecomment-6376143028),
+not his unpublished original 23 probes or spec-only Python implementation.
+The historical 49 kit, 21 browser, 15 slot and 19 admission cases and 16 golden
+self-tests are unchanged.
+
+Both correctly authority-signed duplicate-key policies refuse with
+`UNVERIFIABLE / AMBIGUOUS_LOG_TRUST_ROOT`, regardless of key order.
+`review-authentication.mjs` independently establishes the signatures and selected
+checkpoint before any grading. The separate `mutations-review.json` population
+physically removes the duplicate-ID guard, preserves manifest and slot positives,
+and requires a deterministic false VERIFIED result to count as KILLED.
+Its CRASHED, NO_OP, NOT_APPLIED, MISSING_OUTPUT and CONTROL_BROKEN sentinels are
+explicit non-kills. The ordinary validator and existing CI execute this supplement.
+
+```sh
+node tests/agent-anchor/generate-review-regressions.mjs --out build/review-fixtures.json
+node tests/agent-anchor/review-authentication.mjs
+node tests/agent-anchor/mutations.mjs --catalog mutations-review.json --out build/review-mutations
+```
+
+See `LIMITATIONS.md` for preserved malformed-proof classification, ignored signed
+policy extensions and the browser's `PROFILE_MECHANISM_UNSUPPORTED` narrowing.
+`UPSTREAM_CLARIFICATIONS_PROPOSED.md` contains proposals only: no upstream #85
+specification, external implementation or ERC-8404 Core is changed here.
+Phase 2 remains unstarted pending completed independent review of this PR.

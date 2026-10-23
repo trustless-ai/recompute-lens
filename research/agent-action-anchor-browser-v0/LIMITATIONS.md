@@ -30,6 +30,24 @@ treats every non-R side as left. Browser witnesses demonstrate these refusals;
 they are not relabeled as upstream conformance defects. All 49 published #85
 projections remain unchanged.
 
+`PROFILE_MECHANISM_UNSUPPORTED` is the intentional browser narrowing for a
+validly authenticated but cross-labelled mechanism/profile pair. It is not a
+claim that the #85 host adapter rejects the same input.
+
+Malformed Merkle evidence retains each native algorithm's existing semantics.
+ReceiptOS `verifyInclusion` returns a boolean, so an uppercase sibling hash or
+invalid side can yield `REFUTED / MERKLE_INCLUSION_INVALID`. The slot checker
+classifies those sibling-shape errors as `UNVERIFIABLE / SLOT_MALFORMED`.
+Not every slot-format error is UNVERIFIABLE: canonical snapshot/newline and
+position contradictions can instead be REFUTED. The separate review fixtures
+record the exact distinctions; this change does not normalize native outcomes.
+
+Unknown members in an otherwise validly signed policy body are currently
+ignored by interpretation, while remaining covered by the policy identity and
+signature. For example, `accept_any_root: true` grants no capability and does not
+disable any verification. Unknown profile versions still fail closed. Required
+known fields, selected authority and checkpoint-key uniqueness remain enforced.
+
 The slot port uses the bridge's safe-integer/scalar domain, with bounded strict
 JSON admission. It is not a general Python JSON/JCS compatibility layer. Subject,
 policy and manifest canonicalization retain the restricted ReceiptOS domain;

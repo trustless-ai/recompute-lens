@@ -42,6 +42,9 @@ def main():
     if (ROOT/'public/THIRD_PARTY_NOTICES.txt').read_bytes()!=(ROOT/'dist/THIRD_PARTY_NOTICES.txt').read_bytes():raise RuntimeError('Bundled attribution mismatch')
     run('fixture-reproduction',['node','tests/agent-anchor/generate-extra.mjs','--out',out/'regenerated-browser-vectors.json'])
     if (out/'regenerated-browser-vectors.json').read_bytes()!=(ROOT/'tests/agent-anchor/fixtures/browser-vectors.json').read_bytes():raise RuntimeError('Fixture producer differs')
+    run('review-fixture-reproduction',['node','tests/agent-anchor/generate-review-regressions.mjs','--out',out/'regenerated-review-vectors.json'])
+    if (out/'regenerated-review-vectors.json').read_bytes()!=(ROOT/'tests/agent-anchor/fixtures/review-regressions-v0.json').read_bytes():raise RuntimeError('Review fixture producer differs')
+    run('review-authentication',['node','tests/agent-anchor/review-authentication.mjs'])
     run('native-oracle',[sys.executable,'-B','tests/agent-anchor/replay-oracle.py'])
     shutil.copyfile(ROOT/'build/agent-anchor/oracle/report.json',out/'native-oracle.json')
     shutil.copyfile(ROOT/'build/agent-anchor/source-identity.json',out/'source-identity.json')
@@ -54,17 +57,19 @@ def main():
         run('production-'+mode,['node','tests/agent-anchor/production.mjs'],{'LENS_REPORT_DIR':str(out/('production-'+mode))})
         run('physical-'+mode,['node','tests/agent-anchor/mutations.mjs','--out',out/('physical-'+mode)])
         run('slot-physical-'+mode,['node','tests/agent-anchor/mutations.mjs','--catalog','mutations-slot.json','--out',out/('slot-physical-'+mode)])
+        run('review-physical-'+mode,['node','tests/agent-anchor/mutations.mjs','--catalog','mutations-review.json','--out',out/('review-physical-'+mode)])
     browser_hashes={mode:digest(out/('chromium-'+mode)/'browser-results.json') for mode in ['normal','repeat']}
     mutation_hashes={mode:digest(out/('physical-'+mode)/'report.json') for mode in ['normal','repeat']}
     production_hashes={mode:digest(out/('production-'+mode)/'production-results.json') for mode in ['normal','repeat']}
     slot_hashes={mode:digest(out/('slot-physical-'+mode)/'report.json') for mode in ['normal','repeat']}
-    if any(len(set(h.values()))!=1 for h in [browser_hashes,mutation_hashes,production_hashes,slot_hashes]):raise RuntimeError('Browser/mutation nondeterministic')
+    review_hashes={mode:digest(out/('review-physical-'+mode)/'report.json') for mode in ['normal','repeat']}
+    if any(len(set(h.values()))!=1 for h in [browser_hashes,mutation_hashes,production_hashes,slot_hashes,review_hashes]):raise RuntimeError('Browser/mutation nondeterministic')
     run('source-pins-after',[sys.executable,'-B','tests/agent-anchor/prepare-sources.py'])
     run('diff-check',['git','diff','--check'])
     after=inventory();write(out/'inventory-after.json',after)
     if before!=after:raise RuntimeError('Source changed during validation')
     report.update({'passed':True,'tracked_and_untracked_source_files_unchanged':len(before),
-        'deterministic':{'node':node_hashes,'chromium':browser_hashes,'production':production_hashes,'physical_mutations':mutation_hashes,'supplemental_slot_mutations':slot_hashes},
+        'deterministic':{'node':node_hashes,'chromium':browser_hashes,'production':production_hashes,'physical_mutations':mutation_hashes,'supplemental_slot_mutations':slot_hashes,'review_mutations':review_hashes},
         'runtime':{'python':sys.version,'node':subprocess.check_output(['node','--version']).decode().strip(),
             'platform':sys.platform},'result_scope':'Author/CI reproducibility, not independent organizational certification'})
     write(out/'report.json',report)

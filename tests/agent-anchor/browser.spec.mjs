@@ -5,7 +5,8 @@ import { createHash } from 'node:crypto';
 import { admissionCases } from './admission-cases.mjs';
 const fixture=name=>JSON.parse(readFileSync(new URL('./fixtures/'+name,import.meta.url)));
 const kit=fixture('kit-vectors.json'), extra=fixture('browser-vectors.json'),slots=fixture('slot-vectors.json');
-const all=[...kit.vectors,...extra.vectors];
+const review=fixture('review-regressions-v0.json');
+const all=[...kit.vectors,...extra.vectors,...review.vectors];
 const report={schema:'lens.chromium-conformance.v0',goldens:{},results:{},slot_results:{},admission:{},ui:[],capabilities:{}};
 const out=resolve(process.env.LENS_REPORT_DIR||'build/agent-anchor/browser');
 test.beforeEach(async ({page})=>{
@@ -48,6 +49,20 @@ test('original native slot-log vectors and exact header roots',async ({page})=>{
   },slots.vectors.map(({id,file,prev})=>({id,file,prev})));
   for(const v of slots.vectors)expect(got[v.id],v.id).toEqual(v.expect==='ok'?{status:'ok',root:v.log_root}:{status:'reject'});
   report.slot_results=got;
+});
+
+test('review host regressions cannot promote or mutate local results',async ({page})=>{
+  const got=await page.evaluate(async vectors=>{
+    const results={};
+    for(const v of vectors){
+      const local=await window.lensTest.evaluateProof(v.input,v.context),before=JSON.stringify(local);
+      const comparison=window.lensTest.compareHost(local,v.host);
+      results[v.name]={local,comparison,local_unchanged:before===JSON.stringify(local)};
+    }
+    return results;
+  },review.host_vectors.map(({name,input,context,host})=>({name,input,context,host})));
+  for(const v of review.host_vectors)expect(got[v.name],v.name).toEqual({local:v.expected,comparison:v.expected_comparison,local_unchanged:true});
+  report.host_regressions=got;
 });
 test('raw bytes, 4 MiB and depth admission controls',async ({page})=>{
   for(const v of admissionCases(new Uint8Array(Buffer.from(kit.vectors[0].input.subject_base64,'base64')))){
