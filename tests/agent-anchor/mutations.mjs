@@ -20,7 +20,8 @@ const load=name=>JSON.parse(readFileSync(resolve(repo,'tests/agent-anchor',name)
 const kit=load('fixtures/kit-vectors.json'),extra=load('fixtures/browser-vectors.json');
 const cases=new Map([...kit.vectors,...extra.vectors].map(v=>[v.name,v]));
 const rawCases=new Map(admissionCases(new Uint8Array(Buffer.from(kit.vectors[0].input.subject_base64,'base64'))).map(v=>[v.name,v]));
-const mutations=load('mutations.json').mutations;
+const catalogOption=process.argv.indexOf('--catalog');
+const mutations=load(catalogOption>=0?process.argv[catalogOption+1]:'mutations.json').mutations;
 const originals=Object.fromEntries(readdirSync(source).filter(f=>f.endsWith('.js')).map(f=>[f,readFileSync(resolve(source,f),'utf8')]));
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const hashes=files=>Object.fromEntries(Object.entries(files).map(([f,b])=>[f,hash(b)]));

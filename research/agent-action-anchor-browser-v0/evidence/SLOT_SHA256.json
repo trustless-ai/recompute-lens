@@ -1,0 +1,8 @@
+{
+  "schema": "lens.supplemental-slot-evidence.v0",
+  "population": "supplemental-slot-path-v0",
+  "separate_from_original_41": true,
+  "normal_repeat_byte_equal": true,
+  "sha256": "2055032daf80e999fe8a80405e5418c418b4c8dc64faf69fadfdcbaf41968ef7",
+  "catalog_sha256": "0527b2e0651f51b17eea723298136725eae243676db085d7ac846a0848d85de0"
+}

@@ -53,16 +53,18 @@ def main():
         run('chromium-'+mode,['node','node_modules/@playwright/test/cli.js','test'],{'LENS_REPORT_DIR':str(out/('chromium-'+mode))})
         run('production-'+mode,['node','tests/agent-anchor/production.mjs'],{'LENS_REPORT_DIR':str(out/('production-'+mode))})
         run('physical-'+mode,['node','tests/agent-anchor/mutations.mjs','--out',out/('physical-'+mode)])
+        run('slot-physical-'+mode,['node','tests/agent-anchor/mutations.mjs','--catalog','mutations-slot.json','--out',out/('slot-physical-'+mode)])
     browser_hashes={mode:digest(out/('chromium-'+mode)/'browser-results.json') for mode in ['normal','repeat']}
     mutation_hashes={mode:digest(out/('physical-'+mode)/'report.json') for mode in ['normal','repeat']}
     production_hashes={mode:digest(out/('production-'+mode)/'production-results.json') for mode in ['normal','repeat']}
-    if any(len(set(h.values()))!=1 for h in [browser_hashes,mutation_hashes,production_hashes]):raise RuntimeError('Browser/mutation nondeterministic')
+    slot_hashes={mode:digest(out/('slot-physical-'+mode)/'report.json') for mode in ['normal','repeat']}
+    if any(len(set(h.values()))!=1 for h in [browser_hashes,mutation_hashes,production_hashes,slot_hashes]):raise RuntimeError('Browser/mutation nondeterministic')
     run('source-pins-after',[sys.executable,'-B','tests/agent-anchor/prepare-sources.py'])
     run('diff-check',['git','diff','--check'])
     after=inventory();write(out/'inventory-after.json',after)
     if before!=after:raise RuntimeError('Source changed during validation')
     report.update({'passed':True,'tracked_and_untracked_source_files_unchanged':len(before),
-        'deterministic':{'node':node_hashes,'chromium':browser_hashes,'production':production_hashes,'physical_mutations':mutation_hashes},
+        'deterministic':{'node':node_hashes,'chromium':browser_hashes,'production':production_hashes,'physical_mutations':mutation_hashes,'supplemental_slot_mutations':slot_hashes},
         'runtime':{'python':sys.version,'node':subprocess.check_output(['node','--version']).decode().strip(),
             'platform':sys.platform},'result_scope':'Author/CI reproducibility, not independent organizational certification'})
     write(out/'report.json',report)

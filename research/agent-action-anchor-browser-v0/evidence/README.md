@@ -27,3 +27,8 @@ Then execute the full fresh-clone commands in the parent README. Hash validation
 establishes retained bytes, not correctness, current upstream state or independent
 review. This package's implementation SHA is intentionally stable; PR-head CI
 and later author replay are separate records, not silently inserted into it.
+
+`CI_LF_REPAIR.json` and `CI_LF_FAILURE.log` retain the later Windows checkout
+failure and its isolated byte-conversion controls. `SLOT_MUTATIONS.json` and
+`SLOT_SHA256.json` retain the separate two-mutant slot-path/admission population.
+They are additive evidence, not replacements for any archived observation.

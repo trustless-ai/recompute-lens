@@ -42,6 +42,14 @@ def main():
             check(all(x['classification']!='KILLED' for x in m['records'] if x['kind']=='SENTINEL'),'Sentinel kill credit')
             oracle=load(platform+'/native-oracle.json')
             check(oracle['passed'] is True and oracle['count']==49 and oracle['request_excludes_expectations'] is True,'Native oracle')
-    print(json.dumps({'schema':'lens.retained-evidence-integrity.v0','passed':True,'members':len(pins['archive_members']),'implementation_commit':summary['implementation_commit']}))
+    supplemental=json.loads((E/'SLOT_SHA256.json').read_bytes())
+    raw=(E/'SLOT_MUTATIONS.json').read_bytes();slot=json.loads(raw)
+    check(sha(raw)==supplemental['sha256'],'Supplemental slot report hash')
+    check(sha((ROOT/'tests/agent-anchor/mutations-slot.json').read_bytes())==supplemental['catalog_sha256'],'Supplemental catalog hash')
+    check(slot['passed'] is True and slot['counts']=={'semantic':{'KILLED':2}} and len(slot['records'])==2,'Supplemental population')
+    for record in slot['records']:
+        check(record['byte_restoration'] and record['semantic_restoration'],'Supplemental restoration')
+        for name,expected in record['source_original'].items():check(sha((ROOT/'src/recompute/agent-anchor'/name).read_bytes())==expected,'Retained verifier source differs')
+    print(json.dumps({'schema':'lens.retained-evidence-integrity.v0','passed':True,'members':len(pins['archive_members']),'implementation_commit':summary['implementation_commit'],'separate_slot_mutants':2}))
 
 if __name__=='__main__':main()

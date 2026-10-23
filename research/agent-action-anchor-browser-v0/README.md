@@ -97,6 +97,11 @@ source bytes. Browser-only expectations are separately authored by a producer
 that imports no verifier. The physical catalog records multi-site removals
 explicitly; the defensive native-root fault experiment is a separate population.
 No-op, crash, missing-output and unapplied sentinels cannot count as kills.
+The later `mutations-slot.json` population separately tests path-root enforcement
+and literal L/R admission. Run it with
+`node tests/agent-anchor/mutations.mjs --catalog mutations-slot.json --out build/agent-anchor/slot-replay`.
+The full validator runs both populations in normal/repeat modes without rewriting
+the original retained 41-mutant results.
 
 Independent reviewers should verify pins and fixture hashes, inspect source
 adaptations against the pinned originals, reproduce raw results, inspect each

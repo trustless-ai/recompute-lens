@@ -54,6 +54,15 @@ have identical complete machine-result digests:
 | Production | `c82cfa2f79cd130baf3c1c8a413df34821f6af9bf2159f72656333eb6a83755e` |
 | Physical mutations | `498021b6660e1ce811f0efdf7862f1a765702639118c3225e11defea078f9908` |
 
+Final coverage review added a **separate two-mutant slot population** using the
+same physical runner: removing the ASCII-hex path-root check accepts the invalid
+path witness; removing literal L/R admission accepts the forbidden side alias.
+Both are KILLED with manifest and slot positive controls, complete baseline/
+modified/restored outputs and exact byte restoration. The original 41-mutant
+archive/catalog is preserved unchanged. `evidence/SLOT_MUTATIONS.json` and
+`SLOT_SHA256.json` record this additive population; normal/repeat outputs match.
+The full validator and CI execute both populations separately.
+
 Timing, machine paths and runtime metadata are kept separately from semantic
 digests. The candidate gate recorded all 67 then-present source files unchanged
 during execution. The committed implementation additionally validates distributed

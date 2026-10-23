@@ -1,0 +1,343 @@
+{
+  "schema": "lens.chromium-physical-mutations.v0",
+  "passed": true,
+  "counts": {
+    "semantic": {
+      "KILLED": 2
+    }
+  },
+  "records": [
+    {
+      "id": "slot-path-root",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_INVALID_PATH",
+      "controls": [
+        "A_VALID",
+        "B_VALID_CHAIN"
+      ],
+      "classification": "KILLED",
+      "source_original": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "d19af809de29a917a4ea9cce0b4884bfacccd6c3de678c633ba7f79db343c014",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "source_conditioned": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "d19af809de29a917a4ea9cce0b4884bfacccd6c3de678c633ba7f79db343c014",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "source_mutated": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "6e5efef67183fdfbbd9366fe9e558ba02024c35616acff76b1392bc325aaece0",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "byte_restoration": true,
+      "semantic_restoration": true,
+      "baseline": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_INVALID_PATH": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "REFUTED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "SLOT_INCLUSION_INVALID",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "REFUTED",
+              "reason": "SLOT_INCLUSION_INVALID"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "mutant": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_INVALID_PATH": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "restored": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_INVALID_PATH": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "REFUTED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "SLOT_INCLUSION_INVALID",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "REFUTED",
+              "reason": "SLOT_INCLUSION_INVALID"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (h !== get(get(log, 'header'), 'merkle_root'))",
+          "new": "if (false)",
+          "count": 1
+        }
+      ],
+      "setup_edits": [],
+      "note": null
+    },
+    {
+      "id": "slot-literal-side",
+      "kind": "PROOF",
+      "witness": "BROWSER_SLOT_SIDE_ALIAS",
+      "controls": [
+        "A_VALID",
+        "B_VALID_CHAIN"
+      ],
+      "classification": "KILLED",
+      "source_original": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "d19af809de29a917a4ea9cce0b4884bfacccd6c3de678c633ba7f79db343c014",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "source_conditioned": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "d19af809de29a917a4ea9cce0b4884bfacccd6c3de678c633ba7f79db343c014",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "source_mutated": {
+        "bytes.js": "455c840ae52b963d31cd439a66dcba519e065b34dec96c551789849c71333fa7",
+        "capsule.js": "758a94eded2d2ceaa1e7bbeb3e320c75ab64e8d68589588a0d2e83afa8910c48",
+        "common.js": "f2ffb2d8bb8afff5bdaa156ef2112c15378005d343f684f642f5479aded9f585",
+        "manifest.js": "3fe4e245222e9d83473ab9ff33c69afa47358daab5dab2874860f629d08e7a4f",
+        "proof.js": "ed0dcb7040b953f9ba2b6fb6cfd40419ea0b4364811c15cad27acdaad2e15ff5",
+        "slot.js": "56d523475a27c790c0cb00b718220c0b7b872af7dc60f6f03bf457d7ddbd4f01",
+        "strict-json.js": "c8401c4bf00454f64e1d702db15377b140c7af8ba95595a3199890f6a67254d0"
+      },
+      "byte_restoration": true,
+      "semantic_restoration": true,
+      "baseline": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_SIDE_ALIAS": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "UNVERIFIABLE",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "SLOT_MALFORMED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "UNVERIFIABLE",
+              "reason": "SLOT_MALFORMED"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "mutant": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_SIDE_ALIAS": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "restored": {
+        "results": {
+          "A_VALID": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "agent-action.local-manifest-log.v0",
+              "status": "VERIFIED",
+              "reason": "LOCAL_CHECKPOINT_INCLUSION_VERIFIED"
+            }
+          },
+          "B_VALID_CHAIN": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "VERIFIED",
+            "anchor_assurance": "CHAIN_CONSISTENT",
+            "reason": "BOUNDED_INCLUSION_VERIFIED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "VERIFIED",
+              "reason": "SLOT_NATIVE_VERIFIED"
+            }
+          },
+          "BROWSER_SLOT_SIDE_ALIAS": {
+            "projection": "chain-neutral.result.v0",
+            "proof_validity": "UNVERIFIABLE",
+            "anchor_assurance": "ANCHOR_UNCHECKED",
+            "reason": "SLOT_MALFORMED",
+            "native": {
+              "profile": "invinoveritas.decision_receipt.slot_log.v1",
+              "status": "UNVERIFIABLE",
+              "reason": "SLOT_MALFORMED"
+            }
+          }
+        },
+        "admission": null,
+        "host": null
+      },
+      "edits": [
+        {
+          "file": "slot.js",
+          "old": "if (!['L', 'R'].includes(step.side) || typeof step.hash !== 'string' || !/^[0-9a-f]{64}$/.test(step.hash))",
+          "new": "if (typeof step.hash !== 'string' || !/^[0-9a-f]{64}$/.test(step.hash))",
+          "count": 1
+        }
+      ],
+      "setup_edits": [],
+      "note": null
+    }
+  ]
+}
