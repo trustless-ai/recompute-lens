@@ -56,8 +56,36 @@ have identical complete machine-result digests:
 
 Timing, machine paths and runtime metadata are kept separately from semantic
 digests. The candidate gate recorded all 67 then-present source files unchanged
-during execution. Later distribution-license checks and a stylesheet relocation
-are subject to fresh-checkout validation before publication.
+during execution. The committed implementation additionally validates distributed
+licenses and uses the active stylesheet for the separate result dimensions.
+
+## Fresh committed implementation replay
+
+Exact implementation commit: `de695f06a55684843baa7e80549786eedf7d7d7a`.
+Fresh detached Windows and WSL Ubuntu Linux clones independently prepared their
+locked npm dependencies, Chromium and the exact source repositories. Both full
+16-command gates passed, including normal/repeat browser mutations and production
+build execution. All 68 implementation-commit files stayed byte-identical, and
+both working trees were clean afterward.
+
+Windows used Node 22.15.0 / Python 3.12.10; Linux used Node 20.19.5 / Python
+3.12.3. Both used Chromium 156.0.8078.4. All four digest families above are also
+byte-identical **between** Windows and Linux. Distributed licenses and attribution
+were checked against their pinned originals and against the built Vite output.
+
+The first Windows fresh attempt stopped at Chromium repeat because concurrent
+WSL testing occupied local port 4173. The runner refused to reuse that server.
+This failed setup is preserved separately; the complete sequential Windows run
+passed. Run one campaign per host with that port free.
+
+[`evidence/SUMMARY.json`](evidence/SUMMARY.json) and
+[`evidence/EVIDENCE.zip`](evidence/EVIDENCE.zip) preserve raw commands, stdout,
+stderr, source inventories, oracle results and complete normal/repeat outputs.
+The deterministic 147-member archive is 191,999 bytes; its SHA-256 is
+`9c47bf80551432418b96fa31e61847b3a60d58e7fec66e712038560eecfd8a80`.
+[`evidence/SHA256.json`](evidence/SHA256.json) records every member hash. These are
+historical author-run records of the named implementation commit; subsequent
+report/packaging additions do not backdate their execution.
 
 ## Failure discovered and repaired
 
@@ -80,6 +108,8 @@ non-equivocation, external action execution, judgment correctness, payment and
 claim authorization remain NOT_COVERED. Independent security review and Firefox/
 Safari execution are not established. RVR remains a separate six-field receipt.
 
-Fresh Windows/Linux checkout execution and final publication status will be
-recorded after they actually complete. The separate component design is in
-`PHASE_2_PLAN.md`; no Web Component is implemented in this change.
+Recommendation: **READY_FOR_INDEPENDENT_REVIEW**, within this bounded scope.
+Author replay does not constitute independent human approval. GitHub CI is
+reported separately on the exact published PR head; the local results above are
+not relabeled as CI. The separate component design is in `PHASE_2_PLAN.md`; no
+Web Component is implemented in this change.

@@ -34,6 +34,8 @@ def main():
         write(out/'report.json',report);print(name+': exit '+str(p.returncode),flush=True)
         if p.returncode:raise RuntimeError(name+' failed; retained raw evidence')
     run('source-pins',[sys.executable,'-B','tests/agent-anchor/prepare-sources.py'])
+    run('retained-evidence',[sys.executable,'-B','tests/agent-anchor/verify-evidence.py'])
+    run('retained-evidence-optimized',[sys.executable,'-O','-B','tests/agent-anchor/verify-evidence.py'])
     run('lint',[npm,'run','lint']);run('typescript-build',[npm,'run','build'])
     for file in (ROOT/'public/licenses').iterdir():
         if file.read_bytes()!=(ROOT/'dist/licenses'/file.name).read_bytes():raise RuntimeError('Bundled license mismatch: '+file.name)

@@ -77,6 +77,8 @@ python -B tests/agent-anchor/replay-oracle.py
 ```
 
 Use a new output directory for repeat validation: evidence is not overwritten.
+Keep local port 4173 free and run one campaign per host, including Windows/WSL
+combinations. The test server deliberately refuses to reuse an existing listener.
 The validator runs Node normal/repeat/`--no-opt`, Chromium normal/repeat, production
 bundle checks, physical mutations and the unmodified pinned Node/Python oracle.
 Complete #85 projections (including reason and native fields) are compared, not
@@ -85,6 +87,8 @@ just a green status. Expected outcomes never enter the implementation under test
 ## Evidence and review
 
 See `SOURCE_PINS.json`, `RESULTS.md`, `LIMITATIONS.md` and `PHASE_2_PLAN.md`.
+The retained raw replay package has per-member hashes in `evidence/SHA256.json`;
+verify it with `python -B tests/agent-anchor/verify-evidence.py`.
 `tests/agent-anchor/fixtures/kit-vectors.json` and `slot-vectors.json` are original
 source bytes. Browser-only expectations are separately authored by a producer
 that imports no verifier. The physical catalog records multi-site removals
