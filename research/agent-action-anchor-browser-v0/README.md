@@ -48,7 +48,7 @@ Node 22.15.0, Python 3.12 and the exact npm lock are the CI baseline. Linux Node
 20.19.5 is also exercised locally when recorded in RESULTS. Run in a new clone:
 
 ```sh
-git clone https://github.com/trustless-ai/recompute-lens.git
+git clone --config core.autocrlf=false https://github.com/trustless-ai/recompute-lens.git
 cd recompute-lens
 git checkout <exact PR commit>
 npm ci --ignore-scripts --no-audit --no-fund
@@ -62,6 +62,9 @@ Python path. Preparation explicitly downloads exact source dependencies and
 verifies 49 file pins. Existing unexpected checkouts are refused without reset.
 Missing dependencies or failed browser setup are failures, never successful tests.
 After preparation, the tests and both proof recipes work without network access.
+The clone setting preserves exact source bytes on Windows; the workflow also
+disables automatic CRLF conversion before checkout. Pins are never normalized
+or rewritten to accommodate altered working-tree bytes.
 
 Routine offline subsets:
 

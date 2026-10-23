@@ -1,0 +1,20 @@
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	﻿2026-10-23T21:43:04.4587241Z ##[group]Run python -B tests/agent-anchor/prepare-sources.py --online
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4587936Z ^[[36;1mpython -B tests/agent-anchor/prepare-sources.py --online^[[0m
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4673572Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4674399Z env:
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4674810Z   PYTHONDONTWRITEBYTECODE: 1
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4675200Z   PYTHONUTF8: 1
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4675730Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4676258Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4676773Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4677228Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4677679Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:04.4678071Z ##[endgroup]
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5665493Z Traceback (most recent call last):
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5667616Z   File "D:\a\recompute-lens\recompute-lens\tests\agent-anchor\prepare-sources.py", line 86, in <module>
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5668999Z     args=parser.parse_args();verify(args.online,args.source_root)
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5798228Z                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5799084Z   File "D:\a\recompute-lens\recompute-lens\tests\agent-anchor\prepare-sources.py", line 45, in verify
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5800325Z     raise RuntimeError('HISTORICAL_SOURCE_CHANGED: ' + file)
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.5801280Z RuntimeError: HISTORICAL_SOURCE_CHANGED: .oxlintrc.json
+replay (windows-latest)	Explicit dependency preparation (not a conformance result)	2026-10-23T21:43:13.6987408Z ##[error]Process completed with exit code 1.

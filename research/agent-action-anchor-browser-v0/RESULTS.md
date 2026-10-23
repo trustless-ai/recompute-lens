@@ -95,6 +95,16 @@ character scan, padding checks and round-trip equality. The original failed run
 is retained as an incident; it is not counted as a passing campaign. The final
 19 admission controls exercise this repaired boundary in the actual browser.
 
+The first published head `10a9ae48bb2877225eaf1be8f6653734e737bbb5` passed its
+Ubuntu PR job, but Windows CI correctly failed historical-source hashing during
+dependency preparation (`HISTORICAL_SOURCE_CHANGED: .oxlintrc.json`). A controlled
+fresh checkout reproduced the mismatch with `core.autocrlf=true`: eight CRLF
+conversions alone changed the hash; a fresh `false` checkout matched exactly.
+The follow-up workflow sets `core.autocrlf=false` **before** checkout. Hash checks,
+source pins, proof algorithms and expected outcomes are unchanged. See
+`evidence/CI_LF_REPAIR.json` and the preserved raw `CI_LF_FAILURE.log`. These first
+Windows jobs remain failed setup evidence, not successful conformance tests.
+
 ## Limits and next gate
 
 The browser has three declared narrower admissions than the host: explicit

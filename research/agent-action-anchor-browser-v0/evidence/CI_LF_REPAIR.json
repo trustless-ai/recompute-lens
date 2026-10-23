@@ -1,0 +1,31 @@
+{
+  "schema": "lens.ci-line-ending-control.v0",
+  "head": "10a9ae48bb2877225eaf1be8f6653734e737bbb5",
+  "failed_runs": [
+    40028301103,
+    40028308257
+  ],
+  "classification": "DEPENDENCY_PREPARATION_FAILURE_NOT_CONFORMANCE_PASS",
+  "controls": [
+    {
+      "core_autocrlf": "true",
+      "path": ".oxlintrc.json",
+      "working_tree_sha256": "3f46d4038fd69c0011da897b887d747e3d66f0bbda8b523a54891fbd473d67ef",
+      "git_blob_sha256": "b4d344818a1e1bf43997e4744a9153c8eef770c98b58229cd86363dabb85ded4",
+      "crlf_count": 8,
+      "exact_match": false,
+      "only_crlf_conversion": true
+    },
+    {
+      "core_autocrlf": "false",
+      "path": ".oxlintrc.json",
+      "working_tree_sha256": "b4d344818a1e1bf43997e4744a9153c8eef770c98b58229cd86363dabb85ded4",
+      "git_blob_sha256": "b4d344818a1e1bf43997e4744a9153c8eef770c98b58229cd86363dabb85ded4",
+      "crlf_count": 0,
+      "exact_match": true,
+      "only_crlf_conversion": true
+    }
+  ],
+  "fix": "Set core.autocrlf=false before checkout; retain exact historical hashes",
+  "failed_log_sha256": "cc6904cc91727a494c8f5e8acb120aa10c6c34e50a68b7f2704a77e3cd8df500"
+}
